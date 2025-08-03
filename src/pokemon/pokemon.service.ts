@@ -50,10 +50,13 @@ export class PokemonService {
     if (updatePokemonDto?.name){
       updatePokemonDto.name = updatePokemonDto.name.toLowerCase();
     }
-
-    await pokemon?.updateOne(updatePokemonDto, { new: true}); 
-
-    return { ...pokemon.toJSON(), ...updatePokemonDto};
+    try {
+      await pokemon?.updateOne(updatePokemonDto, { new: true}); 
+  
+      return { ...pokemon.toJSON(), ...updatePokemonDto};
+    } catch(error: unknown) {
+      throw new InternalServerErrorException('Cant update a Pokemon - Check server logs');
+    }
   }
 
   remove(id: number) {
