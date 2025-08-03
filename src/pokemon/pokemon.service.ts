@@ -26,8 +26,9 @@ export class PokemonService {
     }
   }
 
-  findAll() {
-    return `This action returns all pokemon`;
+  async findAll() {
+    const pokemons = await this.pokemonModel.find();
+    return pokemons;
   }
 
   async findOne(term: string) {
@@ -61,6 +62,8 @@ export class PokemonService {
 
   async remove(id: string) {
     const pokemon = await this.findOne(id);
+
+    if (!pokemon) throw new NotFoundException(`The pokemon with id ${id} is not found`)
     
     await pokemon.deleteOne();
 
