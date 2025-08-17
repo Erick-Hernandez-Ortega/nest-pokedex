@@ -9,7 +9,12 @@ async function bootstrap() {
 
    app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
-    forbidNonWhitelisted: true
+    forbidNonWhitelisted: true,
+    // This option make the DTO transform data
+    transform: true,
+    transformOptions: {
+      enableImplicitConversion: true
+    }
    }));
 
   await app.listen(process.env.PORT ?? 3000);
